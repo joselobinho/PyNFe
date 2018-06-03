@@ -426,6 +426,7 @@ class SerializacaoXML(Serializacao):
         # Ex.: NFe35080599999090910270550010000000011518005123
         raiz.attrib['Id'] = nota_fiscal.identificador_unico
 
+        """ Compatibilizando para python 2.7.13"""
         #tz = datetime.now().astimezone().strftime('%z')
         tz = strftime('%z')
         tz = "{}:{}".format(tz[:-2], tz[-2:])
@@ -649,6 +650,8 @@ class SerializacaoXML(Serializacao):
             return raiz
 
     def serializar_evento(self, evento, tag_raiz='evento', retorna_string=False):
+        
+        """ Compatibilizando para python 2.7.13"""
         #tz = datetime.now().astimezone().strftime('%z')
         tz =  strftime('%z')
         tz = "{}:{}".format(tz[:-2], tz[-2:])
