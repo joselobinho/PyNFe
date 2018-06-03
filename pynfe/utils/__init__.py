@@ -62,9 +62,7 @@ def carregar_arquivo_municipios(uf, reverso=False):
         try:
             uf = int(uf)
         except ValueError:
-            print("Estados______1: ",uf)
             uf = flags.CODIGOS_ESTADOS[uf.upper()]
-            print("Estados______2: ",uf)
     caminho_arquivo = os.path.join(CAMINHO_MUNICIPIOS, 'MunIBGE-UF%s.txt' % uf)
 
     # Carrega o conteudo do arquivo
