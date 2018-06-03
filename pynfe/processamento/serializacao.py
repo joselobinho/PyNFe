@@ -8,8 +8,7 @@ from pynfe.utils.webservices import NFCE
 import base64
 import hashlib
 from datetime import datetime
-from time import strftime
-
+from time import strftime#
 class Serializacao(object):
     """Classe abstrata responsavel por fornecer as funcionalidades basicas para
     exportacao e importacao de Notas Fiscais eletronicas para formatos serializados
