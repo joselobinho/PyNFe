@@ -391,7 +391,7 @@ class NotaFiscal(Entidade):
         self.totais_icms_pis += obj.pis_valor
         self.totais_icms_cofins += obj.cofins_valor
         self.totais_icms_outras_despesas_acessorias += obj.outras_despesas_acessorias
-        self.totais_icms_total_nota += obj.valor_total_bruto
+#        self.totais_icms_total_nota += obj.valor_total_bruto
         # - Valor Total do FCP (Fundo de Combate à Pobreza)
         self.totais_fcp += obj.fcp_valor
         self.totais_fcp_destino += obj.fcp_destino_valor

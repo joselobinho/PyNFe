@@ -8,7 +8,7 @@ from pynfe.utils.webservices import NFCE
 import base64
 import hashlib
 from datetime import datetime
-
+from time import strftime
 
 class Serializacao(object):
     """Classe abstrata responsavel por fornecer as funcionalidades basicas para
@@ -61,23 +61,23 @@ class SerializacaoXML(Serializacao):
         """
         try:
             # No raiz do XML de saida
-            raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
+    	    raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
 
             # Carrega lista de Notas Fiscais
-            notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
+    	    notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
 
-            for nf in notas_fiscais:
-                raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
+    	    for nf in notas_fiscais:
+    	        raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
 
-            if retorna_string:
-                return etree.tostring(raiz, encoding="unicode", pretty_print=False)
-            else:
-                return raiz
+    	    if retorna_string:
+    	        return etree.tostring(raiz, encoding="unicode", pretty_print=False)
+    	    else:
+    	        return raiz
         except Exception as e:
             raise e
         finally:
-            if limpar:
-                self._fonte_dados.limpar_dados()
+    	    if limpar:
+    	        self._fonte_dados.limpar_dados()
 
     def importar(self, origem):
         """Cria as instancias do PyNFe a partir de arquivos XML no formato padrao da
@@ -128,6 +128,7 @@ class SerializacaoXML(Serializacao):
         raiz = etree.Element(tag_raiz)
 
         # Dados do cliente (distinatario)
+
         etree.SubElement(raiz, cliente.tipo_documento).text = so_numeros(cliente.numero_documento)
         if not self._so_cpf:
             if cliente.razao_social:
@@ -219,6 +220,8 @@ class SerializacaoXML(Serializacao):
         etree.SubElement(prod, 'cEAN').text = produto_servico.ean
         etree.SubElement(prod, 'xProd').text = produto_servico.descricao
         etree.SubElement(prod, 'NCM').text = produto_servico.ncm
+        if produto_servico.cest:
+            etree.SubElement(prod, 'CEST').text = produto_servico.cest
         # Codificação opcional que detalha alguns NCM. Formato: duas letras maiúsculas e 4 algarismos.
         # Se a mercadoria se enquadrar em mais de uma codificação, informar até 8 codificações principais.
         #etree.SubElement(prod, 'NVE').text = ''
@@ -235,6 +238,11 @@ class SerializacaoXML(Serializacao):
         etree.SubElement(prod, 'uTrib').text = produto_servico.unidade_tributavel
         etree.SubElement(prod, 'qTrib').text = str(produto_servico.quantidade_tributavel)
         etree.SubElement(prod, 'vUnTrib').text = '{:.4f}'.format(produto_servico.valor_unitario_tributavel or 0)
+
+        if produto_servico.total_frete:	etree.SubElement(prod, 'vFrete').text = str( produto_servico.total_frete )
+        if produto_servico.desconto:	etree.SubElement(prod, 'vDesc').text = str( produto_servico.desconto )
+        if produto_servico.outras_despesas_acessorias:	etree.SubElement(prod, 'vOutro').text = str( produto_servico.outras_despesas_acessorias )
+
         """ Indica se valor do Item (vProd) entra no valor total da NF-e (vProd)
             0=Valor do item (vProd) não compõe o valor total da NF-e
             1=Valor do item (vProd) compõe o valor total da NF-e (vProd) (v2.0)
@@ -259,7 +267,7 @@ class SerializacaoXML(Serializacao):
 
         ### ICMS
         icms = etree.SubElement(imposto, 'ICMS')
-        icms_csosn = ('102', '103', '300', '400')
+        icms_csosn = ('102', '103', '300', '400','500')
         if produto_servico.icms_modalidade in icms_csosn:
             icms_item = etree.SubElement(icms, 'ICMSSN'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
@@ -270,14 +278,24 @@ class SerializacaoXML(Serializacao):
             etree.SubElement(icms_item, 'CSOSN').text = produto_servico.icms_csosn
             etree.SubElement(icms_item, 'pCredSN').text = str(produto_servico.icms_aliquota)       # Alíquota aplicável de cálculo do crédito (Simples Nacional).
             etree.SubElement(icms_item, 'vCredICMSSN').text = str(produto_servico.icms_credito)    # Valor crédito do ICMS que pode ser aproveitado nos termos do art. 23 da LC 123 (Simples Nacional)
-        elif produto_servico.icms_modalidade == 'ST':
+        elif produto_servico.icms_modalidade in ['ST','60']:
             icms_item = etree.SubElement(icms, 'ICMS'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
-            etree.SubElement(icms_item, 'CST').text = '41'          # Nao tributado
-            etree.SubElement(icms_item, 'vBCSTRet').text = ''       # Informar o valor da BC do ICMS ST retido na UF remetente
-            etree.SubElement(icms_item, 'vICMSSTRet').text = ''     # Informar o valor do ICMS ST retido na UF remetente
-            etree.SubElement(icms_item, 'vBCSTDest').text = ''      # Informar o valor da BC do ICMS ST da UF destino
-            etree.SubElement(icms_item, 'vICMSSTDest').text = ''    # Informar o valor do ICMS ST da UF destino
+            etree.SubElement(icms_item, 'CST').text = str(produto_servico.icms_modalidade)
+            if produto_servico.icms_valor_base_retido_fonte_st:
+                etree.SubElement(icms_item, 'vBCSTRet').text = str(produto_servico.icms_valor_base_retido_fonte_st)
+            if   produto_servico.icms_percentual_fcp:
+                etree.SubElement(icms_item, 'pST').text = str( produto_servico.icms_percentual_fcp)
+            if produto_servico.icms_valor_icms_st_retido:
+                etree.SubElement(icms_item, 'vICMSSTRet').text = str(produto_servico.icms_valor_icms_st_retido)
+            if produto_servico.icms_valor_base_calculo_fcp_retido:
+                etree.SubElement(icms_item, 'vBCFCPSTRet').text = str(produto_servico.icms_valor_base_calculo_fcp_retido)
+            if produto_servico.icms_percentual_fcp_retido:
+                etree.SubElement(icms_item, 'pFCPSTRet').text = str(produto_servico.icms_percentual_fcp_retido)
+            if produto_servico.icms_valor_fcp_retido:
+                etree.SubElement(icms_item, 'vFCPSTRet').text = str(produto_servico.icms_valor_fcp_retido)
+            #etree.SubElement(icms_item, 'vBCSTDest').text = '0.00'
+            #etree.SubElement(icms_item, 'vICMSSTDest').text = '0.00'
         else:
             ### OUTROS TIPOS DE ICMS (00,10,20)
             icms_item = etree.SubElement(icms, 'ICMS'+produto_servico.icms_modalidade)
@@ -289,7 +307,7 @@ class SerializacaoXML(Serializacao):
             if produto_servico.icms_modalidade == '00':
                 etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
                 etree.SubElement(icms_item, 'pICMS').text = str(produto_servico.icms_aliquota)          # Alíquota do imposto
-                etree.SubElement(icms_item, 'vICMS').text = '{:.2f}'.format(produto_servico.icms_valor or 0) # Valor do ICMS 
+                etree.SubElement(icms_item, 'vICMS').text = str(produto_servico.icms_valor) # Valor do ICMS 
             # 10=Tributada e com cobrança do ICMS por substituição tributária
             elif produto_servico.icms_modalidade == '10':
                 etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
@@ -408,7 +426,8 @@ class SerializacaoXML(Serializacao):
         # Ex.: NFe35080599999090910270550010000000011518005123
         raiz.attrib['Id'] = nota_fiscal.identificador_unico
 
-        tz = datetime.now().astimezone().strftime('%z')
+        #tz = datetime.now().astimezone().strftime('%z')
+        tz = strftime('%z')
         tz = "{}:{}".format(tz[:-2], tz[-2:])
 
         # Dados da Nota Fiscal
@@ -479,14 +498,16 @@ class SerializacaoXML(Serializacao):
         raiz.append(self._serializar_emitente(nota_fiscal.emitente, retorna_string=False))
 
         # Destinatário
-        try:
-            raiz.append(self._serializar_cliente(nota_fiscal.cliente, modelo=nota_fiscal.modelo, retorna_string=False))
-        except AttributeError as e:
-            # NFC-e pode ser gerada sem destinatário
-            if nota_fiscal.modelo == 65:
-                pass
-            else:
-                raise e
+        if not nota_fiscal.cliente.razao_social and nota_fiscal.modelo == 65:	pass
+        else:
+            try:
+                raiz.append(self._serializar_cliente(nota_fiscal.cliente, modelo=nota_fiscal.modelo, retorna_string=False))
+            except AttributeError as e:
+                # NFC-e pode ser gerada sem destinatário
+                if nota_fiscal.modelo == 65:
+    		    pass
+        	else:
+            	    raise e
         # Retirada
         if nota_fiscal.retirada:
             raiz.append(self._serializar_entrega_retirada(
@@ -628,7 +649,8 @@ class SerializacaoXML(Serializacao):
             return raiz
 
     def serializar_evento(self, evento, tag_raiz='evento', retorna_string=False):
-        tz = datetime.now().astimezone().strftime('%z')
+        #tz = datetime.now().astimezone().strftime('%z')
+        tz =  strftime('%z')
         tz = "{}:{}".format(tz[:-2], tz[-2:])
         raiz = etree.Element(tag_raiz, versao='1.00', xmlns=NAMESPACE_NFE)
         e = etree.SubElement(raiz, 'infEvento', Id=evento.identificador)

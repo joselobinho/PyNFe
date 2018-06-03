@@ -317,14 +317,15 @@ class ComunicacaoSefaz(Comunicacao):
         ano = str(ano or datetime.date.today().year)[-2:]
         uf = CODIGOS_ESTADOS[self.uf.upper()]
         cnpj = so_numeros(cnpj)
-
+        modelo_nfe = '55' if modelo == 'nfe' else '65'
+        
         # Identificador da TAG a ser assinada formada com Código da UF + Ano (2 posições) +
         #  CNPJ + modelo + série + nro inicial e nro final precedida do literal “ID”
         id_unico = 'ID%(uf)s%(ano)s%(cnpj)s%(modelo)s%(serie)s%(num_ini)s%(num_fin)s' % {
             'uf': uf,
             'ano': ano,
             'cnpj': cnpj,
-            'modelo': '55',
+            'modelo': modelo_nfe,
             'serie': serie.zfill(3),
             'num_ini': str(numero_inicial).zfill(9),
             'num_fin': str(numero_final).zfill(9),
@@ -390,7 +391,7 @@ class ComunicacaoSefaz(Comunicacao):
                 raise Exception('Modelo não encontrado! Defina modelo="nfe" ou "nfce"')
         # Estados que utilizam outros ambientes
         else:
-            lista_svrs = ['AC', 'RN', 'PB', 'SC', 'SE', 'PI']
+            lista_svrs = ['AC', 'RN', 'PB', 'SC', 'SE', 'PI', 'RJ']
             lista_svan = ['MA','PA']
             if self.uf.upper() in lista_svrs:
                 if self._ambiente == 1:
