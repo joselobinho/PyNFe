@@ -90,6 +90,22 @@ class Produto(Entidade):
     icms_csosn = str()
     icms_aliquota = Decimal()
     icms_credito= Decimal()
+    icms_valor = Decimal()
+    icms_valor_base_calculo = Decimal()
+    
+    # - Valora da base de calculo retido no remetente
+    icms_valor_base_retido_fonte_st = Decimal()
+    # - Percentual do FCP
+    icms_percentual_fcp = Decimal()
+    # - Valor do ICMSST Retido
+    icms_valor_icms_st_retido = Decimal()
+    # - Valor da base de calculo do FCP retido
+    icms_valor_base_calculo_fcp_retido = Decimal()
+    # - Pecentual do FCP retido
+    icms_percentual_fcp_retido = Decimal()
+    # - Valor do FCP retido
+    icms_valor_fcp_retido = Decimal()
+
 
     # # PIS
     pis_modalidade = str()
@@ -145,3 +161,15 @@ class ProdutoICMS(Entidade):
     #  - Percentual da margem de Valor Adicionado ICMS ST
     st_percentual_margem_valor_adicionado = Decimal()
 
+    # - Percentual do FCP
+    #st_percentual_fcp = Decimal()	
+    
+    # - Valor da base de calculo do FCP retido
+    #st_valor_base_calculo_fcp_retido = Decimal()
+    
+    # - Pecentual do FCP retido
+    #st_percentual_fcp_retido = Decimal()
+    
+    # - Valor do FCP retido
+    #st_valor_cpf_retido = Decimal()
+    
