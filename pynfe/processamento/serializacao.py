@@ -74,7 +74,7 @@ class SerializacaoXML(Serializacao):
     	    else:
     	        return raiz
         except Exception as e:
-            raise e
+           raise e
         finally:
     	    if limpar:
     	        self._fonte_dados.limpar_dados()
@@ -348,6 +348,21 @@ class SerializacaoXML(Serializacao):
         # etree.SubElement(ipint, 'CST') = produto_servico.ipi_codigo_enquadramento
 
         # apenas nfe
+        #if modelo == 65:
+
+        #    pisnt = ('04','05','06','07','08','09')
+        #    pis = etree.SubElement(imposto, 'PIS')
+        #    if produto_servico.pis_modalidade in pisnt:
+        #        pis_item = etree.SubElement(pis, 'PISNT')
+        #        etree.SubElement(pis_item, 'CST').text = produto_servico.pis_modalidade
+
+        #    cofinsnt = ('04','05','06','07','08','09')
+        #    ## COFINS
+        #    cofins = etree.SubElement(imposto, 'COFINS')
+        #    if produto_servico.cofins_modalidade in cofinsnt:
+        #        cofins_item = etree.SubElement(cofins, 'COFINSNT')
+        #        etree.SubElement(cofins_item, 'CST').text = produto_servico.cofins_modalidade
+
         if modelo == 55:
             ## PIS
             pisnt = ('04','05','06','07','08','09')
