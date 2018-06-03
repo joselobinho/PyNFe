@@ -9,7 +9,6 @@ import base64
 import hashlib
 from datetime import datetime
 from time import strftime
-# Falando com o eliardo
 
 class Serializacao(object):
     """Classe abstrata responsavel por fornecer as funcionalidades basicas para
