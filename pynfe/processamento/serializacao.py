@@ -297,12 +297,13 @@ class SerializacaoXML(Serializacao):
             #etree.SubElement(icms_item, 'vBCSTDest').text = '0.00'
             #etree.SubElement(icms_item, 'vICMSSTDest').text = '0.00'
         else:
-            ### OUTROS TIPOS DE ICMS (00,10,20)
+            ### OUTROS TIPOS DE ICMS (00,10,20,40)
             icms_item = etree.SubElement(icms, 'ICMS'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
             etree.SubElement(icms_item, 'CST').text = produto_servico.icms_modalidade
             # Modalidade de determinação da BC do ICMS: 0=Margem Valor Agregado (%); 1=Pauta (Valor); 2=Preço Tabelado Máx. (valor); 3=Valor da operação.
-            etree.SubElement(icms_item, 'modBC').text = str(produto_servico.icms_modalidade_determinacao_bc)
+            if produto_servico.icms_modalidade != '40':  etree.SubElement(icms_item, 'modBC').text = str(produto_servico.icms_modalidade_determinacao_bc)
+
             # 00=Tributada integralmente.
             if produto_servico.icms_modalidade == '00':
                 etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
@@ -330,6 +331,11 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(icms_item, 'vBCFCP').text = '{:.2f}'.format(produto_servico.fcp_base_calculo)  # Base de calculo FCP
                 etree.SubElement(icms_item, 'pFCP').text = '{:.2f}'.format(produto_servico.fcp_percentual)  # Percentual FCP 
                 etree.SubElement(icms_item, 'vFCP').text = '{:.2f}'.format(produto_servico.fcp_valor)  # Valor Fundo Combate a Pobreza 
+            # 40-com isencao do ICMS esoneracao    
+            elif produto_servico.icms_modalidade == '40':
+                if produto_servico.icms_40valor_desoneracao:    etree.SubElement(icms_item, 'vICMSDeson').text = str(produto_servico.icms_40valor_desoneracao)
+                if produto_servico.icms_40valor_desoneracao_motivo: etree.SubElement(icms_item, 'motDesICMS').text = produto_servico.icms_40valor_desoneracao_motivo
+
             # Impostos não implementados
             else:
                 raise NotImplementedError

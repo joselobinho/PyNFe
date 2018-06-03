@@ -105,6 +105,10 @@ class Produto(Entidade):
     icms_percentual_fcp_retido = Decimal()
     # - Valor do FCP retido
     icms_valor_fcp_retido = Decimal()
+    #icms 40 Valor da desoneracao
+    icms_40valor_desoneracao = Decimal()
+    #icms 40 Motivo da desoneracao
+    icms_40valor_desoneracao_motivo = str()
 
 
     # # PIS
