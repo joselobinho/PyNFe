@@ -354,8 +354,12 @@ class NotaFiscal(Entidade):
     processos_referenciados = None
 
     # - Formas de pagamentos
-    nota_fiscal_formas_pagamentos = {}
-    
+    pagamentos_formas_pagamentos = {}
+
+    # - Troco
+    pagamentos_troco = str()
+
+
     def __init__(self, *args, **kwargs):
         self.notas_fiscais_referenciadas = []
         self.produtos_e_servicos = []

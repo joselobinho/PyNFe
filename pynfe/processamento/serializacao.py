@@ -640,29 +640,32 @@ class SerializacaoXML(Serializacao):
         # Pagamento
         """ Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. 
         Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90=Sem Pagamento. """
-        if nota_fiscal.nota_fiscal_formas_pagamentos:
+        """
+            dicionario com forma de pagamento, valor parcela, descricao do cartao
+            ex: llista_pagamento = {'01':('2.00'),'03':('3.00','Integracao 1,2','CNPJ','Bandeira','autoriazacao')}
+            01=Visa, 02=Mastercard, 03=American Express, 04=Sorocred, 05=Diners Club, 06=Elo, 07=Hipercard, 08=Aura, 09=Cabal, 99=Outros
+        """
+        if nota_fiscal.pagamentos_formas_pagamentos:
 
             pag = etree.SubElement(raiz, 'pag')
-            for fp in nota_fiscal.nota_fiscal_formas_pagamentos:
+            for fp in nota_fiscal.pagamentos_formas_pagamentos:
 
-                print("Tipo pagamento, Valor: ", fp, nota_fiscal.nota_fiscal_formas_pagamentos[fp] )
-#                pag = etree.SubElement(raiz, 'pag')
                 detpag = etree.SubElement(pag, 'detPag')
                 etree.SubElement(detpag, 'tPag').text = fp
-                etree.SubElement(detpag, 'vPag').text = nota_fiscal.nota_fiscal_formas_pagamentos[fp]
+                etree.SubElement(detpag, 'vPag').text = nota_fiscal.pagamentos_formas_pagamentos[fp][0]
 
-#                if nota_fiscal.tipo_pagamento == 3 or nota_fiscal.tipo_pagamento == 4:
-#                    cartao = etree.SubElement(detpag, 'card')
+                if fp in  ['03','04'] and len( nota_fiscal.pagamentos_formas_pagamentos[fp] )>=2 and nota_fiscal.pagamentos_formas_pagamentos[fp][1]:
+                    cartao = etree.SubElement(detpag, 'card')
+                    etree.SubElement(cartao, 'tpIntegra').text = nota_fiscal.pagamentos_formas_pagamentos[fp][1]
 #                    """ Tipo de Integração do processo de pagamento com o sistema de automação da empresa:
 #                        1=Pagamento integrado com o sistema de automação da empresa (Ex.: equipamento TEF, Comércio Eletrônico);
 #                        2= Pagamento não integrado com o sistema de automação da empresa (Ex.: equipamento POS);
 #                    """
-#                    etree.SubElement(cartao, 'tpIntegra').text = '2'
                     #etree.SubElement(cartao, 'CNPJ').text = '' # Informar o CNPJ da Credenciadora de cartão de crédito / débito
                     #etree.SubElement(cartao, 'tBand').text = '' # 01=Visa 02=Mastercard 03=American Express 04=Sorocred 05=Diners Club 06=Elo 07=Hipercard 08=Aura 09=Caba 99=Outros
                     #etree.SubElement(cartao, 'cAut').text = '' # Identifica o número da autorização da transação da operação com cartão de crédito e/ou débito
-                # troco
-                # etree.SubElement(pag, 'vTroco').text = str('')
+            # troco
+            if nota_fiscal.pagamentos_troco:   etree.SubElement(pag, 'vTroco').text = nota_fiscal.pagamentos_troco
 
         else:
             pag = etree.SubElement(raiz, 'pag')
