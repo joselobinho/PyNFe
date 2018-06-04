@@ -96,5 +96,6 @@ backlog:
 - removido metoco con.cancelar (utilizar con.evento)
 - add evento carta de correção (con.evento)
 
-
+Python 2.7.13
+------------
 Ajuste no codigo para compatibilizar com python 2.7.13
