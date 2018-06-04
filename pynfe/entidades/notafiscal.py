@@ -353,6 +353,9 @@ class NotaFiscal(Entidade):
     # - Processo Referenciado (lista 1 para * / ManyToManyField)
     processos_referenciados = None
 
+    # - Formas de pagamentos
+    nota_fiscal_formas_pagamentos = {}
+    
     def __init__(self, *args, **kwargs):
         self.notas_fiscais_referenciadas = []
         self.produtos_e_servicos = []
