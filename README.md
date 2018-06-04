@@ -95,3 +95,6 @@ backlog:
 - renomeado metodo serializar_evento (_serializar_evento)
 - removido metoco con.cancelar (utilizar con.evento)
 - add evento carta de correção (con.evento)
+
+
+Ajuste no codigo para compatibilizar com python 2.7.13
