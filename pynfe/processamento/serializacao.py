@@ -621,6 +621,7 @@ class SerializacaoXML(Serializacao):
             # Volumes
             if nota_fiscal.transporte_volumes:
                 for volume in nota_fiscal.transporte_volumes:
+                    
                     vol = etree.SubElement(transp, 'vol')
                     etree.SubElement(vol, 'qVol').text = str(volume.quantidade)
                     etree.SubElement(vol, 'esp').text = volume.especie
@@ -637,12 +638,31 @@ class SerializacaoXML(Serializacao):
                         for lacre in volume.lacres:
                             etree.SubElement(lacres, 'nLacre').text = lacre.numero_lacre
 
+            if nota_fiscal.duplicatas:
+
+                cobr = etree.SubElement(raiz, 'cobr')
+                #print('Duplicatas: ',nota_fiscal.duplicatas)
+                fat = etree.SubElement(cobr, 'fat')
+                etree.SubElement(fat, 'nFat').text = str(nota_fiscal.fatura_numero)
+                etree.SubElement(fat, 'vOrig').text = str(nota_fiscal.fatura_valor_original)
+                if nota_fiscal.fatura_valor_desconto:
+                    etree.SubElement(fat, 'vDesc').text = str(nota_fiscal.fatura_valor_desconto)
+                etree.SubElement(fat, 'vLiq').text = str(nota_fiscal.fatura_valor_liquido)
+                for nduplicata in nota_fiscal.duplicatas:
+                    
+                    dup = etree.SubElement(cobr, 'dup')
+                    etree.SubElement(dup, 'nDup').text = str(nduplicata.numero)
+                    etree.SubElement(dup, 'dVenc').text = str(nduplicata.data_vencimento)
+                    etree.SubElement(dup, 'vDup').text = str(nduplicata.valor)
+#                    print('Numero duplicata: ',nduplicata.numero)
+#                    print('Vencimento......: ',nduplicata.data_vencimento)
+#                    print('Valor...........: ',nduplicata.valor)
         # Pagamento
         """ Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. 
         Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90=Sem Pagamento. """
-        """
-            dicionario com forma de pagamento, valor parcela, descricao do cartao
-            ex: llista_pagamento = {'01':('2.00'),'03':('3.00','Integracao 1,2','CNPJ','Bandeira','autoriazacao')}
+        """ PAGAMENTOS
+            dicionario com forma de pagamento, valor parcela, integracao, CNPJ, Bandeira, Autoriazacao do cartao
+            ex: lista_pagamento = {'01':('2.00'),'03':('3.00','Integracao 1,2','CNPJ','Bandeira','autoriazacao')}
             01=Visa, 02=Mastercard, 03=American Express, 04=Sorocred, 05=Diners Club, 06=Elo, 07=Hipercard, 08=Aura, 09=Cabal, 99=Outros
         """
         if nota_fiscal.pagamentos_formas_pagamentos:
@@ -651,10 +671,11 @@ class SerializacaoXML(Serializacao):
             for fp in nota_fiscal.pagamentos_formas_pagamentos:
 
                 detpag = etree.SubElement(pag, 'detPag')
+                etree.SubElement(detpag, 'indPag').text = nota_fiscal.pagamentos_formas_pagamentos[fp][2]
                 etree.SubElement(detpag, 'tPag').text = fp
                 etree.SubElement(detpag, 'vPag').text = nota_fiscal.pagamentos_formas_pagamentos[fp][0]
 
-                if fp in  ['03','04'] and len( nota_fiscal.pagamentos_formas_pagamentos[fp] )>=2 and nota_fiscal.pagamentos_formas_pagamentos[fp][1]:
+                if fp in  ['03','04']: # and len( nota_fiscal.pagamentos_formas_pagamentos[fp] )>=2 and nota_fiscal.pagamentos_formas_pagamentos[fp][1]:
                     cartao = etree.SubElement(detpag, 'card')
                     etree.SubElement(cartao, 'tpIntegra').text = nota_fiscal.pagamentos_formas_pagamentos[fp][1]
 #                    """ Tipo de Integração do processo de pagamento com o sistema de automação da empresa:
