@@ -641,7 +641,6 @@ class SerializacaoXML(Serializacao):
             if nota_fiscal.duplicatas:
 
                 cobr = etree.SubElement(raiz, 'cobr')
-                #print('Duplicatas: ',nota_fiscal.duplicatas)
                 fat = etree.SubElement(cobr, 'fat')
                 etree.SubElement(fat, 'nFat').text = str(nota_fiscal.fatura_numero)
                 etree.SubElement(fat, 'vOrig').text = str(nota_fiscal.fatura_valor_original)
