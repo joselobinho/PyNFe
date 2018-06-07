@@ -110,6 +110,16 @@ class Produto(Entidade):
     #icms 40 Motivo da desoneracao
     icms_40valor_desoneracao_motivo = str()
 
+    # - Difal { Partilha do ICMS CFP }
+    difal_basec_uf_destino = Decimal() # vBCUFDest
+    difal_fcp_basec_uf_destino = Decimal() # vBCFCPUFDest
+    difal_fcp_aliquota_inserido_uf_destino = Decimal() # pFCPUFDest
+    difal_aliquota_uf_destino = Decimal() # pICMSUFDest
+    difal_aliquota_interestadual = Decimal() # pICMSInter
+    difal_percentual_partilha_uf_destino = Decimal() # pICMSInterPart
+    difal_valor_icms_fcp_uf_destino = Decimal() # vFCPUFDest
+    difal_valor_partilha_icms_uf_destino = Decimal() # vICMSUFDest
+    difal_valor_partilha_icms_uf_origem = Decimal() # vICMSUFRemet
 
     # # PIS
     pis_modalidade = str()

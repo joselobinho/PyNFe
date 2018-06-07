@@ -427,6 +427,29 @@ class SerializacaoXML(Serializacao):
                     etree.SubElement(cofins_item, 'vAliqProd').text = produto_servico.cofins_aliquota_percentual
                 etree.SubElement(cofins_item, 'vCOFINS').text = produto_servico.cofins_valor
 
+            # - Partilha de ICMS InterEstadua { FCP }
+            if produto_servico.difal_basec_uf_destino:
+                difal = etree.SubElement(imposto, 'ICMSUFDest')
+
+                if produto_servico.difal_basec_uf_destino:
+                    etree.SubElement(difal, 'vBCUFDest').text = str( produto_servico.difal_basec_uf_destino )
+                if produto_servico.difal_fcp_basec_uf_destino:
+                    etree.SubElement(difal, 'vBCFCPUFDest').text = str( produto_servico.difal_fcp_basec_uf_destino )
+                if produto_servico.difal_fcp_aliquota_inserido_uf_destino:
+                    etree.SubElement(difal, 'pFCPUFDest').text = str( produto_servico.difal_fcp_aliquota_inserido_uf_destino )
+                if produto_servico.difal_aliquota_uf_destino:
+                    etree.SubElement(difal, 'pICMSUFDest').text = str( produto_servico.difal_aliquota_uf_destino )
+                if produto_servico.difal_aliquota_interestadual:
+                    etree.SubElement(difal, 'pICMSInter').text = str( produto_servico.difal_aliquota_interestadual )
+                if produto_servico.difal_percentual_partilha_uf_destino:
+                    etree.SubElement(difal, 'pICMSInterPart').text = str( produto_servico.difal_percentual_partilha_uf_destino )
+                if produto_servico.difal_valor_icms_fcp_uf_destino:
+                    etree.SubElement(difal, 'vFCPUFDest').text = str( produto_servico.difal_valor_icms_fcp_uf_destino )
+                if produto_servico.difal_valor_partilha_icms_uf_destino:
+                    etree.SubElement(difal, 'vICMSUFDest').text = str( produto_servico.difal_valor_partilha_icms_uf_destino )
+                if produto_servico.difal_valor_partilha_icms_uf_origem:
+                    etree.SubElement(difal, 'vICMSUFRemet').text = str( produto_servico.difal_valor_partilha_icms_uf_origem )
+
                 ## COFINSST
                 # cofins_item = etree.SubElement(cofins, 'COFINSOutr')
                 # etree.SubElement(cofins_item, 'vBC').text = produto_servico.cofins_valor_base_calculo
@@ -564,7 +587,7 @@ class SerializacaoXML(Serializacao):
         if nota_fiscal.totais_icms_inter_destino:
             etree.SubElement(icms_total, 'vICMSUFDest').text = '{:.2f}'.format(nota_fiscal.totais_icms_inter_destino)
         if nota_fiscal.totais_icms_inter_remetente:
-            etree.SubElement(icms_total, 'vICMSUFRemet').text = '{:.2f}'.format(nota_fiscal.totais_icms_remetente)
+            etree.SubElement(icms_total, 'vICMSUFRemet').text = '{:.2f}'.format(nota_fiscal.totais_icms_inter_remetente)
         etree.SubElement(icms_total, 'vFCP').text = '{:.2f}'.format(nota_fiscal.totais_fcp)
         etree.SubElement(icms_total, 'vBCST').text = '{:.2f}'.format(nota_fiscal.totais_icms_st_base_calculo)
         etree.SubElement(icms_total, 'vST').text = '{:.2f}'.format(nota_fiscal.totais_icms_st_total)
