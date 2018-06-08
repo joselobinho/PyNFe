@@ -348,20 +348,20 @@ class SerializacaoXML(Serializacao):
         # etree.SubElement(ipint, 'CST') = produto_servico.ipi_codigo_enquadramento
 
         # apenas nfe
-        #if modelo == 65:
+        if modelo == 65:
 
-        #    pisnt = ('04','05','06','07','08','09')
-        #    pis = etree.SubElement(imposto, 'PIS')
-        #    if produto_servico.pis_modalidade in pisnt:
-        #        pis_item = etree.SubElement(pis, 'PISNT')
-        #        etree.SubElement(pis_item, 'CST').text = produto_servico.pis_modalidade
+            pisnt = ('04','05','06','07','08','09','99')
+            pis = etree.SubElement(imposto, 'PIS')
+            if produto_servico.pis_modalidade in pisnt:
+                pis_item = etree.SubElement(pis, 'PISNT')
+                etree.SubElement(pis_item, 'CST').text = produto_servico.pis_modalidade
 
-        #    cofinsnt = ('04','05','06','07','08','09')
-        #    ## COFINS
-        #    cofins = etree.SubElement(imposto, 'COFINS')
-        #    if produto_servico.cofins_modalidade in cofinsnt:
-        #        cofins_item = etree.SubElement(cofins, 'COFINSNT')
-        #        etree.SubElement(cofins_item, 'CST').text = produto_servico.cofins_modalidade
+            cofinsnt = ('04','05','06','07','08','09','99')
+            ## COFINS
+            cofins = etree.SubElement(imposto, 'COFINS')
+            if produto_servico.cofins_modalidade in cofinsnt:
+                cofins_item = etree.SubElement(cofins, 'COFINSNT')
+                etree.SubElement(cofins_item, 'CST').text = produto_servico.cofins_modalidade
 
         if modelo == 55:
             ## PIS
@@ -457,6 +457,10 @@ class SerializacaoXML(Serializacao):
                 # etree.SubElement(cofins_item, 'qBCProd').text = produto_servico.quantidade_comercial
                 # etree.SubElement(cofins_item, 'vAliqProd').text = produto_servico.cofins_aliquota_percentual
                 # etree.SubElement(cofins_item, 'vCOFINS').text = produto_servico.cofins_valor
+
+        # - Informacoes adicionais do produto
+        if produto_servico.informacoes_adicionais_produto:
+            etree.SubElement(raiz, 'infAdProd').text = produto_servico.informacoes_adicionais_produto
 
         if retorna_string:
             return etree.tostring(raiz, encoding="unicode", pretty_print=True)
@@ -742,7 +746,7 @@ class SerializacaoXML(Serializacao):
             return raiz
 
     def serializar_evento(self, evento, tag_raiz='evento', retorna_string=False):
-        
+       # print('---------------------EVENTO: ',evento.identificador,self._ambiente,CODIGOS_ESTADOS[evento.uf.upper()])
         """ Compatibilizando para python 2.7.13"""
         #tz = datetime.now().astimezone().strftime('%z')
         tz =  strftime('%z')

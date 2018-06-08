@@ -10,7 +10,8 @@ class Produto(Entidade):
     # Dados do Produto
     # - Descricao (obrigatorio)
     descricao = str()
-
+    # - Informacoes adicionais do produto
+    informacoes_adicionais_produto = str()
     # - Codigo (obrigatorio) - nao pode ser alterado quando em edicao
     codigo = str()
 
