@@ -64,7 +64,7 @@ class SerializacaoXML(Serializacao):
     	    raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
 
             # Carrega lista de Notas Fiscais
-    	    notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
+            notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
 
     	    for nf in notas_fiscais:
     	        raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
