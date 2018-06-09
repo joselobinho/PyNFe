@@ -59,25 +59,25 @@ class SerializacaoXML(Serializacao):
         @param retorna_string - Retorna uma string para debug.
         @param limpar - Limpa a fonte de dados para não gerar xml com dados duplicados.
         """
-        #try:
+        try:
             # No raiz do XML de saida
-    	raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
+    	    raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
 
             # Carrega lista de Notas Fiscais
-    	notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
+    	    notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
 
-    	for nf in notas_fiscais:
-    	    raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
+    	    for nf in notas_fiscais:
+    	        raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
 
-    	if retorna_string:
-    	    return etree.tostring(raiz, encoding="unicode", pretty_print=False)
-    	else:
+    	    if retorna_string:
+    	        return etree.tostring(raiz, encoding="unicode", pretty_print=False)
+    	    else:
     	        return raiz
-        #except Exception as e:
-        #   raise e
-        #finally:
-    	if limpar:
-    	    self._fonte_dados.limpar_dados()
+        except Exception as e:
+           raise e
+        finally:
+    	    if limpar:
+    	        self._fonte_dados.limpar_dados()
 
     def importar(self, origem):
         """Cria as instancias do PyNFe a partir de arquivos XML no formato padrao da
