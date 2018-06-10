@@ -462,6 +462,7 @@ class NotaFiscal(Entidade):
     @property
     # @memoize
     def identificador_unico(self):
+
         # Monta 'Id' da tag raiz <infNFe>
         # Ex.: NFe35080599999090910270550010000000011518005123
         key = "%(uf)s%(ano)s%(mes)s%(cnpj)s%(mod)s%(serie)s%(nNF)s%(tpEmis)s%(cNF)s"%{

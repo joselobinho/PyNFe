@@ -191,20 +191,20 @@ class SerializacaoXML(Serializacao):
 
     def _serializar_entrega_retirada(self, entrega_retirada, tag_raiz='entrega', retorna_string=True):
         raiz = etree.Element(tag_raiz)
-
         # Dados da entrega/retirada
-        etree.SubElement(raiz, entrega_retirada.tipo_documento).text = so_numeros(entrega_retirada.numero_documento)
+        #etree.SubElement(raiz, entrega_retirada.tipo_documento).text = so_numeros(entrega_retirada.numero_documento)
+        etree.SubElement(raiz, entrega_retirada[8]).text = entrega_retirada[9]
 
         # Endereço
-        etree.SubElement(raiz, 'xLgr').text = entrega_retirada.endereco_logradouro
-        etree.SubElement(raiz, 'nro').text = entrega_retirada.endereco_numero
-        etree.SubElement(raiz, 'xCpl').text = entrega_retirada.endereco_complemento
-        etree.SubElement(raiz, 'xBairro').text = entrega_retirada.endereco_bairro
-        etree.SubElement(raiz, 'cMun').text = entrega_retirada.endereco_municipio
-        etree.SubElement(raiz, 'xMun').text = obter_municipio_por_codigo(
-                entrega_retirada.endereco_municipio, entrega_retirada.endereco_uf,
-                )
-        etree.SubElement(raiz, 'UF').text = entrega_retirada.endereco_uf
+        etree.SubElement(raiz, 'xLgr').text = entrega_retirada[0] #.endereco_logradouro
+        etree.SubElement(raiz, 'nro').text = entrega_retirada[1] #.endereco_numero
+        etree.SubElement(raiz, 'xCpl').text = entrega_retirada[2] #.endereco_complemento
+        etree.SubElement(raiz, 'xBairro').text = entrega_retirada[3] #.endereco_bairro
+        etree.SubElement(raiz, 'cMun').text = entrega_retirada[5] #.endereco_municipio
+        etree.SubElement(raiz, 'xMun').text = entrega_retirada[4] #obter_municipio_por_codigo(
+        #        entrega_retirada.endereco_municipio, entrega_retirada.endereco_uf,
+        #        )
+        etree.SubElement(raiz, 'UF').text = entrega_retirada[6] #.endereco_uf
 
         if retorna_string:
             return etree.tostring(raiz, encoding="unicode", pretty_print=True)
