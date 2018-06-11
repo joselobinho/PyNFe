@@ -193,7 +193,7 @@ class SerializacaoXML(Serializacao):
         raiz = etree.Element(tag_raiz)
         # Dados da entrega/retirada
         #etree.SubElement(raiz, entrega_retirada.tipo_documento).text = so_numeros(entrega_retirada.numero_documento)
-        etree.SubElement(raiz, entrega_retirada[8]).text = entrega_retirada[9]
+        etree.SubElement(raiz, entrega_retirada[8]).text = entrega_retirada[9] #Tipo e numero do documento
 
         # Endereço
         etree.SubElement(raiz, 'xLgr').text = entrega_retirada[0] #.endereco_logradouro
