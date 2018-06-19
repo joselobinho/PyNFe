@@ -178,7 +178,8 @@ class SerializacaoXML(Serializacao):
         # Dados da transportadora
         etree.SubElement(raiz, transportadora.tipo_documento.upper()).text = so_numeros(transportadora.numero_documento)
         etree.SubElement(raiz, 'xNome').text = transportadora.razao_social
-        etree.SubElement(raiz, 'IE').text = transportadora.inscricao_estadual
+        if transportadora.inscricao_estadual:
+            etree.SubElement(raiz, 'IE').text = transportadora.inscricao_estadual
         # Endereço
         etree.SubElement(raiz, 'xEnder').text = transportadora.endereco_logradouro
         etree.SubElement(raiz, 'xMun').text = transportadora.endereco_municipio
