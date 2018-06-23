@@ -1,4 +1,3 @@
-
 """
 	@author: Junior Tada, Leonardo Tada
 """
@@ -125,9 +124,10 @@ NFCE = {
 	    	'CHAVE': '',
 	    	'INUTILIZACAO': '',
 	    	'EVENTOS': '',
-	    	'QR': ''
-	    	# qr homologacao ​http://nfcehomolog.sefaz.pe.gov.br/nfce-web/consultarNFCe
-	    	# qr producao ​http://nfce.sefaz.pe.gov.br/nfce-web/consultarNFCe
+	    	'QR': 'sefaz.pe.gov.br/nfce-web/consultarNFCe?',
+	    	'HTTPS': 'http://nfce.',
+	    	'HOMOLOGACAO': 'http://nfcehomolog.',
+	    	'URL': 'sefaz.pe.gov.br/nfce-web/consultarNFCe'
 	    },
 	    'AL': {
 	    	'STATUS': '',
@@ -180,7 +180,7 @@ NFCE = {
 	    	'QR': 'http://www4.fazenda.rj.gov.br/consultaNFCe/QRCode?', 
 	    	'URL': 'www.nfce.fazenda.rj.gov.br/consulta'
 	    },
-	    # Os Web Services de homologação da NFC-e 4.00 são: 
+		# Os Web Services de homologacao da NFC-e 4.00 sao: 
 		# https://homologacao.nfce.fazenda.sp.gov.br/ws/NFeAutorizacao4.asmx 
 		# https://homologacao.nfce.fazenda.sp.gov.br/ws/NFeStatusServico4.asmx 
 		# https://homologacao.nfce.fazenda.sp.gov.br/ws/NFeConsultaProtocolo4.asmx 
@@ -274,17 +274,15 @@ NFCE = {
 }
 
 # Nfe
-# homologação => http://hom.nfe.fazenda.gov.br/PORTAL/WebServices.aspx
-# produção    => https://www.nfe.fazenda.gov.br/portal/webServices.aspx
+# homologacao => http://hom.nfe.fazenda.gov.br/PORTAL/WebServices.aspx
+# producao    => https://www.nfe.fazenda.gov.br/portal/webServices.aspx
 NFE = {
-		# Alguns serviços são disponibilizados apenas pelo ambiente nacional
+		# Alguns servicos sao disponibilizados apenas pelo ambiente nacional
 		'AN': {
 	    	'EVENTOS': 'nfe.fazenda.gov.br/NFeRecepcaoEvento4/NFeRecepcaoEvento4.asmx',	# versao: 4.00
 	    	'DISTRIBUICAO': 'nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx',
-	    	'DOWNLOAD': 'nfe.fazenda.gov.br/NfeDownloadNF/NfeDownloadNF.asmx', 				# versao: 2.00/3.10
-	    	'DESTINADAS': 'nfe.fazenda.gov.br/NFeConsultaDest/NFeConsultaDest.asmx',		# versao: 2.00/3.10
-	    	'HTTPS': 'https://www.',
-	    	'HOMOLOGACAO': 'https://hom.'
+	    	'HTTPS': 'https://www',
+	    	'HOMOLOGACAO': 'https://hom'
 	    },
 	    'AM': {
 	    	'STATUS': 'nfe.sefaz.am.gov.br/services2/services/NfeStatusServico2',
@@ -361,7 +359,7 @@ NFE = {
 	    	'AUTORIZACAO': 'nfe.sefa.pr.gov.br/nfe/NFeAutorizacao4',		# AUTORIZACAO
 	    	'RECIBO': 'nfe.sefa.pr.gov.br/nfe/NFeRetAutorizacao4',		    # CONSULTA RECIBO
 	    	'CHAVE': 'nfe.sefa.pr.gov.br/nfe/NFeConsultaProtocolo4',		# CONSULTA CHAVE DE ACESSO
-	    	'INUTILIZACAO': 'nfe.sefa.pr.gov.br/nfe/NFeInutilizacao4',		# INUTILIZAÇAO
+	    	'INUTILIZACAO': 'nfe.sefa.pr.gov.br/nfe/NFeInutilizacao4',		# INUTILIZACAO
 	    	'EVENTOS': 'nfe.sefa.pr.gov.br/nfe/NFeRecepcaoEvento4',			# REGISTRO DE EVENTOS
 	    	'CADASTRO': 'nfe.sefa.pr.gov.br/nfe/CadConsultaCadastro4',		# CONSULTA CADASTRO
 	    	'HTTPS': 'https://',

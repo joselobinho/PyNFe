@@ -755,6 +755,7 @@ class SerializacaoXML(Serializacao):
         #tz = datetime.now().astimezone().strftime('%z')
         tz =  strftime('%z')
         tz = "{}:{}".format(tz[:-2], tz[-2:])
+
         raiz = etree.Element(tag_raiz, versao='1.00', xmlns=NAMESPACE_NFE)
         e = etree.SubElement(raiz, 'infEvento', Id=evento.identificador)
         etree.SubElement(e, 'cOrgao').text = CODIGOS_ESTADOS[evento.uf.upper()]
