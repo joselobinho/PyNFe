@@ -182,8 +182,7 @@ class ComunicacaoSefaz(Comunicacao):
             etree.SubElement(consChNFe, 'chNFe').text = chave
         # Monta XML para envio da requisição
         xml = self._construir_xml_soap('NFeDistribuicaoDFe', raiz)
-        # print(url)
-        print(etree.tostring(xml))
+
         return self._post(url, xml)
 
     def consulta_cadastro(self, modelo, cnpj):
@@ -257,6 +256,7 @@ class ComunicacaoSefaz(Comunicacao):
         etree.SubElement(raiz, 'cUF').text = CODIGOS_ESTADOS[self.uf.upper()]
         etree.SubElement(raiz, 'xServ').text = 'STATUS'
         xml = self._construir_xml_soap('NFeStatusServico4', raiz)
+
         return self._post(url, xml)
 
     def inutilizacao(self, modelo, cnpj, numero_inicial, numero_final, justificativa='', ano=None, serie='1'):
@@ -411,10 +411,11 @@ class ComunicacaoSefaz(Comunicacao):
         certificado_a1 = CertificadoA1(self.certificado)
         chave, cert = certificado_a1.separar_arquivo(self.certificado_senha, caminho=True)
         chave_cert = (cert, chave)
+        #print('-----: ',chave_cert)
         # Abre a conexão HTTPS
         try:
             xml_declaration = '<?xml version="1.0" encoding="UTF-8"?>'
-
+            #print('Estamos aqui')
             # limpa xml com caracteres bugados para infNFeSupl em NFC-e
             xml = re.sub(
                 '<qrCode>(.*?)</qrCode>',
@@ -422,6 +423,7 @@ class ComunicacaoSefaz(Comunicacao):
                 etree.tostring(xml, encoding='unicode').replace('\n', '')
             )
             xml = xml_declaration + xml
+            #print( xml )
             # Faz o request com o servidor
             result = requests.post(url, xml, headers=self._post_header(), cert=chave_cert, verify=False)
             result.encoding = 'utf-8'
@@ -429,7 +431,7 @@ class ComunicacaoSefaz(Comunicacao):
         except requests.exceptions.RequestException as e:
             raise e
         finally:
-            certificado_a1.excluir()
+            certificado_a1.excluir()    
 
 
 class ComunicacaoNfse(Comunicacao):

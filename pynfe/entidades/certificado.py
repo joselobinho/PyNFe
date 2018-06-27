@@ -51,6 +51,8 @@ class CertificadoA1(Certificado):
                 arqchave.write(chave)
             self.arquivos_temp.append(arqchave.name)
             self.arquivos_temp.append(arqcert.name)
+            #print( arqchave.name )
+            #print( arqcert.name )
             return arqchave.name, arqcert.name
         else:
             # Certificado
@@ -61,7 +63,8 @@ class CertificadoA1(Certificado):
 
             # Chave, string decodificada da chave privada
             chave = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkcs12.get_privatekey())
-
+            #print(cert)
+            #print(chave)
             return chave, cert
 
     def excluir(self):

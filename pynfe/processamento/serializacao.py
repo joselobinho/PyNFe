@@ -329,9 +329,9 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(icms_item, 'vBC').text = '{:.2f}'.format(produto_servico.icms_valor_base_calculo or 0)  # Valor da BC do ICMS 
                 etree.SubElement(icms_item, 'pICMS').text = str(produto_servico.icms_aliquota)          # Alíquota do imposto
                 etree.SubElement(icms_item, 'vICMS').text = '{:.2f}'.format(produto_servico.icms_valor or 0)  # Valor do ICMS 
-                etree.SubElement(icms_item, 'vBCFCP').text = '{:.2f}'.format(produto_servico.fcp_base_calculo)  # Base de calculo FCP
-                etree.SubElement(icms_item, 'pFCP').text = '{:.2f}'.format(produto_servico.fcp_percentual)  # Percentual FCP 
-                etree.SubElement(icms_item, 'vFCP').text = '{:.2f}'.format(produto_servico.fcp_valor)  # Valor Fundo Combate a Pobreza 
+                #etree.SubElement(icms_item, 'vBCFCP').text = '{:.2f}'.format(produto_servico.fcp_base_calculo)  # Base de calculo FCP
+                #etree.SubElement(icms_item, 'pFCP').text = '{:.2f}'.format(produto_servico.fcp_percentual)  # Percentual FCP 
+                #etree.SubElement(icms_item, 'vFCP').text = '{:.2f}'.format(produto_servico.fcp_valor)  # Valor Fundo Combate a Pobreza 
             # 40-com isencao do ICMS esoneracao    
             elif produto_servico.icms_modalidade == '40':
                 if produto_servico.icms_40valor_desoneracao:    etree.SubElement(icms_item, 'vICMSDeson').text = str(produto_servico.icms_40valor_desoneracao)
