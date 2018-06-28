@@ -32,7 +32,7 @@ class AssinaturaA1(Assinatura):
     def assinar(self, xml, retorna_string=False):
         # busca tag que tem id(reference_uri), logo nao importa se tem namespace
         reference = xml.find(".//*[@Id]").attrib['Id']
-
+        #print('Referencia: ',reference)
         # retira acentos
         xml_str = remover_acentos(etree.tostring(xml, encoding="unicode", pretty_print=False))
         xml = etree.fromstring(xml_str)

@@ -286,12 +286,12 @@ class ComunicacaoSefaz(Comunicacao):
             'uf': uf,
             'ano': ano,
             'cnpj': cnpj,
-            'modelo': '55',
+            'modelo': '55' if modelo == 'nfe' else '65',
             'serie': serie.zfill(3),
             'num_ini': str(numero_inicial).zfill(9),
             'num_fin': str(numero_final).zfill(9),
         }
-
+        
         # Monta XML do corpo da requisição # FIXME
         raiz = etree.Element('inutNFe', versao=VERSAO_PADRAO, xmlns=NAMESPACE_NFE)
         inf_inut = etree.SubElement(raiz, 'infInut', Id=id_unico)
@@ -308,6 +308,7 @@ class ComunicacaoSefaz(Comunicacao):
 
         # assinatura
         a1 = AssinaturaA1(self.certificado, self.certificado_senha)
+
         xml = a1.assinar(raiz)
 
         # Monta XML para envio da requisição
