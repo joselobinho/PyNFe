@@ -273,6 +273,11 @@ class SerializacaoXML(Serializacao):
             icms_item = etree.SubElement(icms, 'ICMSSN'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
             etree.SubElement(icms_item, 'CSOSN').text = produto_servico.icms_csosn
+            if produto_servico.icms_modalidade == '900':
+                etree.SubElement(icms_item, 'modBC').text = str(produto_servico.icms_modalidade_determinacao_bc)
+                etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
+                etree.SubElement(icms_item, 'pICMS').text = str(produto_servico.icms_aliquota)          # Alíquota do imposto
+                etree.SubElement(icms_item, 'vICMS').text = str(produto_servico.icms_valor) # Valor do ICMS 
         elif produto_servico.icms_modalidade == '101':
             icms_item = etree.SubElement(icms, 'ICMSSN'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
@@ -297,6 +302,7 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(icms_item, 'vFCPSTRet').text = str(produto_servico.icms_valor_fcp_retido)
             #etree.SubElement(icms_item, 'vBCSTDest').text = '0.00'
             #etree.SubElement(icms_item, 'vICMSSTDest').text = '0.00'
+
         else:
             ### OUTROS TIPOS DE ICMS (00,10,20,40)
             icms_item = etree.SubElement(icms, 'ICMS'+produto_servico.icms_modalidade)
