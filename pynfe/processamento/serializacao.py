@@ -268,7 +268,7 @@ class SerializacaoXML(Serializacao):
 
         ### ICMS
         icms = etree.SubElement(imposto, 'ICMS')
-        icms_csosn = ('102', '103', '300', '400','500')
+        icms_csosn = ('102', '103', '300', '400','500','900')
         if produto_servico.icms_modalidade in icms_csosn:
             icms_item = etree.SubElement(icms, 'ICMSSN'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
