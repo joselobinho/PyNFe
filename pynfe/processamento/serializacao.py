@@ -316,6 +316,8 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
                 etree.SubElement(icms_item, 'pICMS').text = str(produto_servico.icms_aliquota)          # Alíquota do imposto
                 etree.SubElement(icms_item, 'vICMS').text = str(produto_servico.icms_valor) # Valor do ICMS 
+                #etree.SubElement(icms_item, 'pFCP').text = '0.00' #str(produto_servico.icms_valor) # Valor do ICMS 
+                #etree.SubElement(icms_item, 'vFCP').text = '0.00' #str(produto_servico.icms_valor) # Valor do ICMS 
             # 10=Tributada e com cobrança do ICMS por substituição tributária
             elif produto_servico.icms_modalidade == '10':
                 etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
@@ -437,7 +439,6 @@ class SerializacaoXML(Serializacao):
             # - Partilha de ICMS InterEstadua { FCP }
             if produto_servico.difal_basec_uf_destino:
                 difal = etree.SubElement(imposto, 'ICMSUFDest')
-
                 if produto_servico.difal_basec_uf_destino:
                     etree.SubElement(difal, 'vBCUFDest').text = str( produto_servico.difal_basec_uf_destino )
                 if produto_servico.difal_fcp_basec_uf_destino:
