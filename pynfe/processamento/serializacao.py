@@ -139,8 +139,7 @@ class SerializacaoXML(Serializacao):
             if cliente.endereco_complemento:
                 etree.SubElement(endereco, 'xCpl').text = cliente.endereco_complemento
             etree.SubElement(endereco, 'xBairro').text = cliente.endereco_bairro
-            etree.SubElement(endereco, 'cMun').text = obter_codigo_por_municipio(
-                cliente.endereco_municipio, cliente.endereco_uf)
+            etree.SubElement(endereco, 'cMun').text = cliente.endereco_cod_municipio #obter_codigo_por_municipio(cliente.endereco_municipio, cliente.endereco_uf)
             etree.SubElement(endereco, 'xMun').text = cliente.endereco_municipio
             etree.SubElement(endereco, 'UF').text = cliente.endereco_uf
             etree.SubElement(endereco, 'CEP').text = so_numeros(cliente.endereco_cep)
