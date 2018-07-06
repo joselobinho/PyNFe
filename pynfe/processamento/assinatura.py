@@ -44,7 +44,9 @@ class AssinaturaA1(Assinatura):
 
         ns = {None: signer.namespaces['ds']}
         signer.namespaces = ns
-
+        #print('Chave......: ',self.key)
+        #print('*',200)
+        #print('Certificado: ',self.cert)
         ref_uri = ('#%s' % reference) if reference else None
         signed_root = signer.sign(
             xml, key=self.key, cert=self.cert, reference_uri=ref_uri)
@@ -53,6 +55,7 @@ class AssinaturaA1(Assinatura):
         # coloca o certificado na tag X509Data/X509Certificate
         tagX509Data = signed_root.find('.//ns:X509Data', namespaces=ns)
         etree.SubElement(tagX509Data, 'X509Certificate').text = self.cert
+        #print('Assinatura: ',etree.tostring(signed_root, encoding="unicode", pretty_print=False) )
         if retorna_string:
             return etree.tostring(signed_root, encoding="unicode", pretty_print=False)
         else:

@@ -39,6 +39,8 @@ class Evento(Entidade):
                 'chave': self.chave,
                 'n_seq_evento': str(self.n_seq_evento).zfill(2),
         }
+        #print('_______________EVENTO: ',self.tp_evento,self.chave,self.n_seq_evento, self.id)
+        
         return self.id
 
 

@@ -394,6 +394,7 @@ class ComunicacaoSefaz(Comunicacao):
             a = etree.SubElement(x, 'nfeDadosMsg')
         else:
             a = etree.SubElement(body, 'nfeDadosMsg', xmlns=NAMESPACE_METODO+metodo)
+        #print'====================================1: ',( type(dados) )
         a.append(dados)
         return raiz
 
