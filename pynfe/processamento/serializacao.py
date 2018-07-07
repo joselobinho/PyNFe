@@ -681,13 +681,13 @@ class SerializacaoXML(Serializacao):
                 fat = etree.SubElement(cobr, 'fat')
                 etree.SubElement(fat, 'nFat').text = str(nota_fiscal.fatura_numero)
                 etree.SubElement(fat, 'vOrig').text = str(nota_fiscal.fatura_valor_original)
-                if nota_fiscal.fatura_valor_desconto:
-                    etree.SubElement(fat, 'vDesc').text = str(nota_fiscal.fatura_valor_desconto)
+                #if nota_fiscal.fatura_valor_desconto:
+                etree.SubElement(fat, 'vDesc').text = str(nota_fiscal.fatura_valor_desconto)
                 etree.SubElement(fat, 'vLiq').text = str(nota_fiscal.fatura_valor_liquido)
                 for nduplicata in nota_fiscal.duplicatas:
                     
                     dup = etree.SubElement(cobr, 'dup')
-                    etree.SubElement(dup, 'nDup').text = str(nduplicata.numero)
+                    etree.SubElement(dup, 'nDup').text = str(nduplicata.numero).split('-')[1]
                     etree.SubElement(dup, 'dVenc').text = str(nduplicata.data_vencimento)
                     etree.SubElement(dup, 'vDup').text = str(nduplicata.valor)
 #                    print('Numero duplicata: ',nduplicata.numero)
