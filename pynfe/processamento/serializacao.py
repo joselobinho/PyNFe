@@ -684,15 +684,17 @@ class SerializacaoXML(Serializacao):
                 #if nota_fiscal.fatura_valor_desconto:
                 etree.SubElement(fat, 'vDesc').text = str(nota_fiscal.fatura_valor_desconto)
                 etree.SubElement(fat, 'vLiq').text = str(nota_fiscal.fatura_valor_liquido)
+                sequencia_documentos = 1
                 for nduplicata in nota_fiscal.duplicatas:
                     
                     dup = etree.SubElement(cobr, 'dup')
-                    etree.SubElement(dup, 'nDup').text = str(nduplicata.numero).split('-')[1]
+                    etree.SubElement(dup, 'nDup').text = str( sequencia_documentos ).zfill(3) #str(nduplicata.numero).split('-')[1]
                     etree.SubElement(dup, 'dVenc').text = str(nduplicata.data_vencimento)
                     etree.SubElement(dup, 'vDup').text = str(nduplicata.valor)
 #                    print('Numero duplicata: ',nduplicata.numero)
 #                    print('Vencimento......: ',nduplicata.data_vencimento)
 #                    print('Valor...........: ',nduplicata.valor)
+                    sequencia_documentos +=1
         # Pagamento
         """ Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. 
         Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90=Sem Pagamento. """
