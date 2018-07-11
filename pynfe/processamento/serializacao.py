@@ -383,13 +383,13 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(pis_item, 'CST').text = produto_servico.pis_modalidade
                 etree.SubElement(pis_item, 'vBC').text = produto_servico.pis_valor_base_calculo
                 etree.SubElement(pis_item, 'pPIS').text = produto_servico.pis_aliquota_percentual
-                etree.SubElement(pis_item, 'vPIS').text = produto_servico.pis_valor
+                etree.SubElement(pis_item, 'vPIS').text = str( produto_servico.pis_valor )
             elif produto_servico.pis_modalidade == '03':
                 pis_item = etree.SubElement(pis, 'PISQtde')
                 etree.SubElement(pis_item, 'CST').text = produto_servico.pis_modalidade
                 etree.SubElement(pis_item, 'qBCProd').text = produto_servico.quantidade_comercial
                 etree.SubElement(pis_item, 'vAliqProd').text = produto_servico.pis_aliquota_percentual
-                etree.SubElement(pis_item, 'vPIS').text = produto_servico.pis_valor_base_calculo
+                etree.SubElement(pis_item, 'vPIS').text = str( produto_servico.pis_valor_base_calculo )
             else:
                 pis_item = etree.SubElement(pis, 'PISOutr')
                 etree.SubElement(pis_item, 'CST').text = produto_servico.pis_modalidade
@@ -419,7 +419,7 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(cofins_item, 'CST').text = produto_servico.cofins_modalidade
                 etree.SubElement(cofins_item, 'vBC').text = produto_servico.cofins_valor_base_calculo
                 etree.SubElement(cofins_item, 'pCOFINS').text = produto_servico.cofins_aliquota_percentual
-                etree.SubElement(cofins_item, 'vCOFINS').text = produto_servico.cofins_valor
+                etree.SubElement(cofins_item, 'vCOFINS').text = str( produto_servico.cofins_valor )
             elif produto_servico.cofins_modalidade == '03':
                 cofins_item = etree.SubElement(cofins, 'COFINSQtde')
                 etree.SubElement(cofins_item, 'CST').text = produto_servico.cofins_modalidade
