@@ -167,7 +167,7 @@ class ComunicacaoSefaz(Comunicacao):
         # url
         url = self._get_url_an(consulta='DISTRIBUICAO')
         # Monta XML para envio da requisição
-        raiz = etree.Element('distDFeInt', versao='1.00', xmlns=NAMESPACE_NFE)
+        raiz = etree.Element('distDFeInt', versao='1.01', xmlns=NAMESPACE_NFE)
         etree.SubElement(raiz, 'tpAmb').text = str(self._ambiente)
         if self.uf:
             etree.SubElement(raiz, 'cUFAutor').text = CODIGOS_ESTADOS[self.uf.upper()]
@@ -175,8 +175,8 @@ class ComunicacaoSefaz(Comunicacao):
             etree.SubElement(raiz, 'CNPJ').text = cnpj
         else:
             etree.SubElement(raiz, 'CPF').text = cpf
-        distNSU = etree.SubElement(raiz, 'distNSU')
-        etree.SubElement(distNSU, 'ultNSU').text = str(nsu).zfill(15)
+#        distNSU = etree.SubElement(raiz, 'distNSU')
+#        etree.SubElement(distNSU, 'ultNSU').text = "000000000000071" #str(nsu).zfill(15)
         if chave:
             consChNFe = etree.SubElement(raiz, 'consChNFe')
             etree.SubElement(consChNFe, 'chNFe').text = chave
@@ -328,6 +328,7 @@ class ComunicacaoSefaz(Comunicacao):
             ambiente = 'https://hom.'
 
         self.url = ambiente + NFE['AN'][consulta]
+        #print('------------------------URL: ',self.url)
         return self.url
 
     def _get_url(self, modelo, consulta):
@@ -425,10 +426,13 @@ class ComunicacaoSefaz(Comunicacao):
                 etree.tostring(xml, encoding='unicode').replace('\n', '')
             )
             xml = xml_declaration + xml
-            #print( xml )
+            print( xml )
+            print('======================: ',url)
             # Faz o request com o servidor
             result = requests.post(url, xml, headers=self._post_header(), cert=chave_cert, verify=False)
+            print('111======================: ',url)
             result.encoding = 'utf-8'
+            print('----------------------------------------------------',result.text)
             return result
         except requests.exceptions.RequestException as e:
             raise e
