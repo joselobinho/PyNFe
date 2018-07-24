@@ -167,7 +167,8 @@ class ComunicacaoSefaz(Comunicacao):
         # url
         url = self._get_url_an(consulta='DISTRIBUICAO')
         # Monta XML para envio da requisição
-        raiz = etree.Element('distDFeInt', versao='1.01', xmlns=NAMESPACE_NFE)
+#        raiz = etree.Element('distDFeInt', versao='1.01', xmlns=NAMESPACE_NFE)
+        raiz = etree.Element('distDFeInt', xmlns=NAMESPACE_NFE, versao="1.01")
         etree.SubElement(raiz, 'tpAmb').text = str(self._ambiente)
         if self.uf:
             etree.SubElement(raiz, 'cUFAutor').text = CODIGOS_ESTADOS[self.uf.upper()]
@@ -175,14 +176,15 @@ class ComunicacaoSefaz(Comunicacao):
             etree.SubElement(raiz, 'CNPJ').text = cnpj
         else:
             etree.SubElement(raiz, 'CPF').text = cpf
-#        distNSU = etree.SubElement(raiz, 'distNSU')
-#        etree.SubElement(distNSU, 'ultNSU').text = "000000000000071" #str(nsu).zfill(15)
+        if nsu:
+            distNSU = etree.SubElement(raiz, 'distNSU')
+            etree.SubElement(distNSU, 'ultNSU').text = str(nsu).zfill(15)
         if chave:
             consChNFe = etree.SubElement(raiz, 'consChNFe')
             etree.SubElement(consChNFe, 'chNFe').text = chave
         # Monta XML para envio da requisição
         xml = self._construir_xml_soap('NFeDistribuicaoDFe', raiz)
-
+        #print('----------------------- ',url)
         return self._post(url, xml)
 
     def consulta_cadastro(self, modelo, cnpj):
@@ -397,6 +399,9 @@ class ComunicacaoSefaz(Comunicacao):
             a = etree.SubElement(body, 'nfeDadosMsg', xmlns=NAMESPACE_METODO+metodo)
         #print'====================================1: ',( type(dados) )
         a.append(dados)
+        #print( self.url)
+        #print('====================================1: ', etree.tostring(raiz, encoding='unicode') )
+
         return raiz
 
     def _post_header(self):
@@ -426,13 +431,13 @@ class ComunicacaoSefaz(Comunicacao):
                 etree.tostring(xml, encoding='unicode').replace('\n', '')
             )
             xml = xml_declaration + xml
-            print( xml )
-            print('======================: ',url)
+            #print( xml )
+            #print('======================: ',url)
             # Faz o request com o servidor
             result = requests.post(url, xml, headers=self._post_header(), cert=chave_cert, verify=False)
-            print('111======================: ',url)
+            #print('111======================: ',url)
             result.encoding = 'utf-8'
-            print('----------------------------------------------------',result.text)
+            #print('----------------------------------------------------',result.text)
             return result
         except requests.exceptions.RequestException as e:
             raise e

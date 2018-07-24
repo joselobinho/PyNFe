@@ -61,18 +61,18 @@ class SerializacaoXML(Serializacao):
         """
         try:
             # No raiz do XML de saida
-    	    raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
+            raiz = etree.Element('NFe', xmlns=NAMESPACE_NFE)
 
             # Carrega lista de Notas Fiscais
             notas_fiscais = self._fonte_dados.obter_lista(_classe=NotaFiscal, **kwargs)
 
-    	    for nf in notas_fiscais:
-    	        raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
+            for nf in notas_fiscais:
+                raiz.append(self._serializar_nota_fiscal(nf, retorna_string=False))
 
-    	    if retorna_string:
-    	        return etree.tostring(raiz, encoding="unicode", pretty_print=False)
-    	    else:
-    	        return raiz
+            if retorna_string:
+                return etree.tostring(raiz, encoding="unicode", pretty_print=False)
+            else:
+                return raiz
         except Exception as e:
            raise e
         finally:
@@ -304,11 +304,14 @@ class SerializacaoXML(Serializacao):
 
         else:
             ### OUTROS TIPOS DE ICMS (00,10,20,40)
+            
             icms_item = etree.SubElement(icms, 'ICMS'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
             etree.SubElement(icms_item, 'CST').text = produto_servico.icms_modalidade
             # Modalidade de determinação da BC do ICMS: 0=Margem Valor Agregado (%); 1=Pauta (Valor); 2=Preço Tabelado Máx. (valor); 3=Valor da operação.
-            if produto_servico.icms_modalidade != '40':  etree.SubElement(icms_item, 'modBC').text = str(produto_servico.icms_modalidade_determinacao_bc)
+            
+            modalidade = False if produto_servico.icms_modalidade in ['40','41'] else True
+            if modalidade:  etree.SubElement(icms_item, 'modBC').text = str(produto_servico.icms_modalidade_determinacao_bc)
 
             # 00=Tributada integralmente.
             if produto_servico.icms_modalidade == '00':
@@ -340,7 +343,7 @@ class SerializacaoXML(Serializacao):
                 #etree.SubElement(icms_item, 'pFCP').text = '{:.2f}'.format(produto_servico.fcp_percentual)  # Percentual FCP 
                 #etree.SubElement(icms_item, 'vFCP').text = '{:.2f}'.format(produto_servico.fcp_valor)  # Valor Fundo Combate a Pobreza 
             # 40-com isencao do ICMS esoneracao    
-            elif produto_servico.icms_modalidade == '40':
+            elif produto_servico.icms_modalidade in ['40','41']:
                 if produto_servico.icms_40valor_desoneracao:    etree.SubElement(icms_item, 'vICMSDeson').text = str(produto_servico.icms_40valor_desoneracao)
                 if produto_servico.icms_40valor_desoneracao_motivo: etree.SubElement(icms_item, 'motDesICMS').text = produto_servico.icms_40valor_desoneracao_motivo
 
