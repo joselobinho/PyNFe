@@ -347,6 +347,27 @@ class SerializacaoXML(Serializacao):
                 if produto_servico.icms_40valor_desoneracao:    etree.SubElement(icms_item, 'vICMSDeson').text = str(produto_servico.icms_40valor_desoneracao)
                 if produto_servico.icms_40valor_desoneracao_motivo: etree.SubElement(icms_item, 'motDesICMS').text = produto_servico.icms_40valor_desoneracao_motivo
 
+            elif produto_servico.icms_modalidade == '70':
+                if produto_servico.icms_70modbc:    etree.SubElement(icms_item, "modBC").text =          produto_servico.icms_70modbc
+                if produto_servico.icms_70predbc:   etree.SubElement(icms_item, "pRedBC").text =         produto_servico.icms_70predbc
+                if produto_servico.icms_70vbc:  etree.SubElement(icms_item, "vBC").text =                produto_servico.icms_70vbc
+                if produto_servico.icms_70picms:    etree.SubElement(icms_item, "pICMS").text =          produto_servico.icms_70picms
+                if produto_servico.icms_70vicms:    etree.SubElement(icms_item, "vICMS").text =          produto_servico.icms_70vicms
+                if produto_servico.icms_70vbcfcp:   etree.SubElement(icms_item, "vBCFCP").text =         produto_servico.icms_70vbcfcp
+                if produto_servico.icms_70pfcp: etree.SubElement(icms_item, "pFCP").text =               produto_servico.icms_70pfcp
+                if produto_servico.icms_70vfcp: etree.SubElement(icms_item, "vFCP").text =               produto_servico.icms_70vfcp
+                if produto_servico.icms_70mdbcst:   etree.SubElement(icms_item, "modBCST").text =        produto_servico.icms_70mdbcst
+                if produto_servico.icms_70pmvast:   etree.SubElement(icms_item, "pMVAST").text =         produto_servico.icms_70pmvast
+                if produto_servico.icms_70predbcst: etree.SubElement(icms_item, "pRedBCST").text =       produto_servico.icms_70predbcst
+                if produto_servico.icms_70vbcst:    etree.SubElement(icms_item, "vBCST").text =          produto_servico.icms_70vbcst
+                if produto_servico.icms_70picmsst:  etree.SubElement(icms_item, "pICMSST").text =        produto_servico.icms_70picmsst
+                if produto_servico.icms_70vicmsst:  etree.SubElement(icms_item, "vICMSST").text =        produto_servico.icms_70vicmsst
+                if produto_servico.icms_70vbcfcpst: etree.SubElement(icms_item, "vBCFCPST").text =       produto_servico.icms_70vbcfcpst
+                if produto_servico.icms_70pfcpst:   etree.SubElement(icms_item, "pFCPST").text =         produto_servico.icms_70pfcpst
+                if produto_servico.icms_70vfcpst:   etree.SubElement(icms_item, "vFCPST").text =         produto_servico.icms_70vfcpst
+                if produto_servico.icms_70vicmsdeson:   etree.SubElement(icms_item, "vICMSDeson").text = produto_servico.icms_70vicmsdeson
+                if produto_servico.icms_70motdesicms:   etree.SubElement(icms_item, "motDesICMS").text = produto_servico.icms_70motdesicms
+
             # Impostos não implementados
             else:
                 raise NotImplementedError

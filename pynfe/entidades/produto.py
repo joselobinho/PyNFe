@@ -111,6 +111,27 @@ class Produto(Entidade):
     #icms 40 Motivo da desoneracao
     icms_40valor_desoneracao_motivo = str()
 
+    """ ICMS 70 """
+    icms_70modbc = str()
+    icms_70predbc = str()
+    icms_70vbc = str()
+    icms_70picms = str()
+    icms_70vicms = str()
+    icms_70vbcfcp = str()
+    icms_70pfcp = str()
+    icms_70vfcp = str()
+    icms_70mdbcst = str()
+    icms_70pmvast = str()
+    icms_70predbcst = str()
+    icms_70vbcst = str()
+    icms_70picmsst = str()
+    icms_70vicmsst = str()
+    icms_70vbcfcpst = str()
+    icms_70pfcpst = str()
+    icms_70vfcpst = str()
+    icms_70vicmsdeson = str()
+    icms_70motdesicms = str()
+
     # - Difal { Partilha do ICMS CFP }
     difal_basec_uf_destino = Decimal() # vBCUFDest
     difal_fcp_basec_uf_destino = Decimal() # vBCFCPUFDest
