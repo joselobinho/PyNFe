@@ -133,7 +133,7 @@ class Produto(Entidade):
     cofins_valor_base_calculo = str()
     cofins_aliquota_percentual = str()
     cofins_valor = str()
-    print('simplesmente')
+ 
     """ ICMS 70 """
     icms_70modbc = str()
     icms_70predbc = str()
@@ -154,7 +154,6 @@ class Produto(Entidade):
     icms_70vfcpst = str()
     icms_70vicmsdeson = str()
     icms_70motdesicms = str()
-    print('Estamos')
 
     # # - ICMS (lista 1 para * / ManyToManyField)
     icms = None
