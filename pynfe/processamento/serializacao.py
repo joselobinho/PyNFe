@@ -347,7 +347,7 @@ class SerializacaoXML(Serializacao):
                 if produto_servico.icms_40valor_desoneracao:    etree.SubElement(icms_item, 'vICMSDeson').text = str(produto_servico.icms_40valor_desoneracao)
                 if produto_servico.icms_40valor_desoneracao_motivo: etree.SubElement(icms_item, 'motDesICMS').text = produto_servico.icms_40valor_desoneracao_motivo
 
-            elif produto_servico.icms_modalidade == '70':
+            elif produto_servico.icms_modalidade in ['70','10']:
                 if produto_servico.icms_70predbc:   etree.SubElement(icms_item, "pRedBC").text = produto_servico.icms_70predbc
                 if produto_servico.icms_70vbc:  etree.SubElement(icms_item, "vBC").text = produto_servico.icms_70vbc
                 if produto_servico.icms_70picms:    etree.SubElement(icms_item, "pICMS").text = produto_servico.icms_70picms
@@ -896,7 +896,6 @@ class SerializacaoQrcode(object):
         # retorna apenas nfe com o qrcode incluido NT2015/002
         else:
             return nfe
-
 
 class SerializacaoNfse(object):
     def __init__(self, autorizador):
