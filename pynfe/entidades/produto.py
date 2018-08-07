@@ -128,6 +128,9 @@ class Produto(Entidade):
     pis_aliquota_percentual = str()
     pis_valor = str()
 
+    ipidevolucao_percentual = str()
+    ipidevolucao_valor = Decimal()
+
     # # COFINS
     cofins_modalidade = str()
     cofins_valor_base_calculo = str()

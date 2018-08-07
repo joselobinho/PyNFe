@@ -488,6 +488,13 @@ class SerializacaoXML(Serializacao):
                 # etree.SubElement(cofins_item, 'vAliqProd').text = produto_servico.cofins_aliquota_percentual
                 # etree.SubElement(cofins_item, 'vCOFINS').text = produto_servico.cofins_valor
 
+        if produto_servico.ipidevolucao_percentual:
+            impdevol = etree.SubElement(raiz, 'impostoDevol')
+            #impdevol = etree.SubElement(imposto, 'impostoDevol')
+            etree.SubElement(impdevol, 'pDevol').text = produto_servico.ipidevolucao_percentual
+            ipi = etree.SubElement(impdevol, 'IPI')
+            etree.SubElement(ipi, 'vIPIDevol').text = produto_servico.ipidevolucao_valor
+
         # - Informacoes adicionais do produto
         if produto_servico.informacoes_adicionais_produto:
             etree.SubElement(raiz, 'infAdProd').text = produto_servico.informacoes_adicionais_produto
