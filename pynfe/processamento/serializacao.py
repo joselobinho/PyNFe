@@ -277,6 +277,12 @@ class SerializacaoXML(Serializacao):
                 etree.SubElement(icms_item, 'vBC').text = str(produto_servico.icms_valor_base_calculo)  # Valor da BC do ICMS 
                 etree.SubElement(icms_item, 'pICMS').text = str(produto_servico.icms_aliquota)          # Alíquota do imposto
                 etree.SubElement(icms_item, 'vICMS').text = str(produto_servico.icms_valor) # Valor do ICMS 
+
+                if produto_servico.icms_70mdbcst:   etree.SubElement(icms_item, "modBCST").text = produto_servico.icms_70mdbcst
+                if produto_servico.icms_70vbcst:    etree.SubElement(icms_item, "vBCST").text = produto_servico.icms_70vbcst
+                if produto_servico.icms_70picmsst:  etree.SubElement(icms_item, "pICMSST").text = produto_servico.icms_70picmsst
+                if produto_servico.icms_70vicmsst:  etree.SubElement(icms_item, "vICMSST").text = produto_servico.icms_70vicmsst
+
         elif produto_servico.icms_modalidade == '101':
             icms_item = etree.SubElement(icms, 'ICMSSN'+produto_servico.icms_modalidade)
             etree.SubElement(icms_item, 'orig').text = str(produto_servico.icms_origem)
@@ -493,7 +499,7 @@ class SerializacaoXML(Serializacao):
             #impdevol = etree.SubElement(imposto, 'impostoDevol')
             etree.SubElement(impdevol, 'pDevol').text = produto_servico.ipidevolucao_percentual
             ipi = etree.SubElement(impdevol, 'IPI')
-            etree.SubElement(ipi, 'vIPIDevol').text = produto_servico.ipidevolucao_valor
+            etree.SubElement(ipi, 'vIPIDevol').text = str( produto_servico.ipidevolucao_valor )
 
         # - Informacoes adicionais do produto
         if produto_servico.informacoes_adicionais_produto:
