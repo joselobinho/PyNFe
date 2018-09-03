@@ -717,8 +717,8 @@ class SerializacaoXML(Serializacao):
                 fat = etree.SubElement(cobr, 'fat')
                 etree.SubElement(fat, 'nFat').text = str(nota_fiscal.fatura_numero)
                 etree.SubElement(fat, 'vOrig').text = str(nota_fiscal.fatura_valor_original)
-                if nota_fiscal.fatura_valor_desconto or str(self._ambiente) == '2' :   
-                    etree.SubElement(fat, 'vDesc').text = str(nota_fiscal.fatura_valor_desconto)
+                #if nota_fiscal.fatura_valor_desconto or str(self._ambiente) == '2' :   
+                etree.SubElement(fat, 'vDesc').text = str(nota_fiscal.fatura_valor_desconto)
                 etree.SubElement(fat, 'vLiq').text = str(nota_fiscal.fatura_valor_liquido)
                 sequencia_documentos = 1
                 for nduplicata in nota_fiscal.duplicatas:
